@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: flask-image-generator
+    runtime: python
+    buildCommand: ""
+    startCommand: gunicorn main:app
+    envVars:
+      - key: PORT
+        value: 10000
