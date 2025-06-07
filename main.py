@@ -38,4 +38,9 @@ def generate_image():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+from flask import Response
+
+@app.route("/")
+def index():
+    return Response("Flask app is running.", mimetype="text/html")
 
