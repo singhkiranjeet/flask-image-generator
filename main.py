@@ -8,13 +8,11 @@ app = Flask(__name__)
 def index():
     return Response("Flask app is running.", mimetype="text/html")
 
-
 BACKGROUND_PATH = "background.png"
 FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 FONT_SIZE = 48
 TEXT_FILL = (255, 255, 255)
 TEXT_POSITION = (50, 300)
-
 
 @app.route("/generate", methods=["POST"])
 def generate_image():
@@ -25,7 +23,7 @@ def generate_image():
     text = data["text"]
 
     try:
-        bg = Image.open(BACKGROUND_PATH).convert("RGB")
+        bg = Image.open(BACKGROUND_PATH).convert("RGB")  # Ensure JPEG compatible
         font = ImageFont.truetype(FONT_PATH, FONT_SIZE)
         draw = ImageDraw.Draw(bg)
         draw.text(TEXT_POSITION, text, font=font, fill=TEXT_FILL)
@@ -33,11 +31,10 @@ def generate_image():
         return {"error": str(e)}, 500
 
     buf = io.BytesIO()
-    bg.save(buf, format="PNG")
+    bg.save(buf, format="JPEG")  # Save as JPEG
     buf.seek(0)
 
-    return send_file(buf, mimetype="image/png")
+    return send_file(buf, mimetype="image/jpeg")  # Return JPEG
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
-
