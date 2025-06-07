@@ -1,8 +1,13 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, Response
 from PIL import Image, ImageDraw, ImageFont
 import io
 
 app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return Response("Flask app is running.", mimetype="text/html")
+
 
 BACKGROUND_PATH = "background.png"
 FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
@@ -10,9 +15,6 @@ FONT_SIZE = 48
 TEXT_FILL = (255, 255, 255)
 TEXT_POSITION = (50, 300)
 
-@app.route("/")
-def index():
-    return "Flask app is running."
 
 @app.route("/generate", methods=["POST"])
 def generate_image():
@@ -38,9 +40,4 @@ def generate_image():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
-from flask import Response
-
-@app.route("/")
-def index():
-    return Response("Flask app is running.", mimetype="text/html")
 
